@@ -21,45 +21,61 @@ grid = [
     [ 1, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52,  1, 89, 19, 67, 48]
 ]
 
-max_vert = -1
-max_diag = -1
-max_horiz = -1
+n = -1
+e = -1
+s = -1
+w = -1
+ne = -1
+nw = -1
+se = -1
+sw = -1
+max_prod = -1
 
-# Max horizontal product
 for y in range(20):
-    for x in range(17):
-        row = grid[y]
-        horiz_prod = row[x] * row[x+1] * row[x+2] * row[x+3]
-        if horiz_prod > max_horiz:
-            max_horiz = horiz_prod
+    for x in range(20):
+        try:
+            n = grid[y][x] * grid[y-1][x] * grid[y-2][x] * grid[y-3][x]
+        except:
+            pass
 
-# Max vertical product
-for x in range(20):
-    for y in range(17):
-        vert_prod = grid[y][x] * grid[y+1][x] * grid[y+2][x] * grid[y+3][x]
-        if vert_prod > max_vert:
-            max_vert = vert_prod
+        try:
+            e = grid[y][x] * grid[y][x+1] * grid[y][x+2] * grid[y][x+3]
+        except:
+            pass
 
-for y in range(17):
-    for x in range(17):
-        right_diag_prod = grid[y][x] * grid[y+1][x+1] * grid[y+2][x+2] * grid[y+3][x+3]
-        if right_diag_prod > max_diag:
-            max_diag = right_diag_prod
+        try:
+            s = grid[y][x] * grid[y+1][x] * grid[y+2][x] * grid[y+3][x]
+        except:
+            pass
 
-for y in range(16, -1, -1):
-    for x in range(17):
-        right_diag_prod = grid[y][x] * grid[y+1][x+1] * grid[y+2][x+2] * grid[y+3][x+3]
-        print(grid[y][x] , grid[y+1][x+1] , grid[y+2][x+2] , grid[y+3][x+3])
-        if right_diag_prod > max_diag:
-            max_diag = right_diag_prod
+        try:
+            w = grid[y][x] * grid[y][x-1] * grid[y][x-2] * grid[y][x-3]
+        except:
+            pass
 
-for y in range(19, 2, -1):
-    for x in range(19, 2, -1):
-        left_diag_prod = grid[y][x] * grid[y-1][x-1] * grid[y-2][x-2] * grid[y-3][x-3]
-        if left_diag_prod == 16*31*99*18:
-            print('hi')
-        if left_diag_prod > max_diag:
-            max_diag = left_diag_prod
+        try:
+            ne = grid[y][x] * grid[y-1][x+1] * grid[y-2][x+2] * grid[y-3][x+3]
+        except:
+            pass
 
-print(max_vert, max_horiz, max_diag)
-print(max(max_vert, max_horiz, max_diag))
+        try:
+            nw = grid[y][x] * grid[y-1][x-1] * grid[y-2][x-2] * grid[y-3][x-3]
+        except:
+            pass
+
+        try:
+            se = grid[y][x] * grid[y+1][x+1] * grid[y+2][x+2] * grid[y+3][x+3]
+        except:
+            pass
+
+        try:
+            sw = grid[y][x] * grid[y+1][x-1] * grid[y+2][x-2] * grid[y+3][x-3]
+        except:
+            pass
+
+
+        cur_max = max(n, e, s, w, ne, nw, se, sw)
+        if cur_max > max_prod:
+            max_prod = cur_max
+
+print(max_prod)
